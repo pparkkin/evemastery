@@ -30,8 +30,9 @@
                where m.\"typeID\" = %d" typeid)])))
 
 (defn all [typeid]
-  (into {} (for [[k v] (group-by :typename (query typeid))]
-             [k (group-by :masterylevel v)])))
+  (first ; There should only be one, but anyway, just take one
+   (into [] (for [[k v] (group-by :typename (query typeid))]
+              [k (group-by :masterylevel v)]))))
 
 (defn all-r []
   (reduce #(assoc %1 (:typename %2) (conj (%1 (:typename %2)) (dissoc %2 :typename)))

@@ -1,15 +1,26 @@
 (ns viewer.view.mastery
-  (:require [hiccup.core :as h]))
+  (:require [hiccup.page :as page]))
 
-(defn render-masteries [[k v]]
-  [:div
-   [:h2 k]
-   (map (fn [m] [:div (:name m)]) v)])
+(defn render-mastery [[level certs]]
+  [:div.mastery
+   [:h2.mastery-level level]
+   [:ul.certificates
+    (map (fn [m] [:li.certificate (:name m)])
+         certs)]])
 
-(defn render-ship [[k v]]
-  [:div
-   [:h1 k]
-   (map render-masteries v)])
+(defn render-ship [ship masteries]
+  [:div.ship
+   [:div.ship-info
+    [:h1.ship-name ship]]
+   [:div.masteries
+    (map render-mastery masteries)]])
 
 (defn render [ms]
-  (h/html (map render-ship ms)))
+  (let [ship-name (first ms)
+        masteries (second ms)]
+    (page/html5
+     [:head
+      [:title (format "Masteries - %s" ship-name)]
+      (page/include-css "/stylesheets/mastery.css")]
+     [:body
+      (render-ship ship-name masteries)])))
