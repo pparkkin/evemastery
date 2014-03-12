@@ -1,7 +1,8 @@
 (ns viewer.controller.api
   (:require [compojure.core :refer [defroutes GET]]
             [clojure.data.json :as json]
-            [viewer.model.mastery :as mastery]))
+            [viewer.model.mastery :as mastery]
+            [viewer.model.ship :as ship]))
 
 (defn json-response [data]
   {:status 200
@@ -11,5 +12,7 @@
 ;;; ["/user/:id", :id #"[0-9]+"]
 (defroutes routes
   (GET ["/masteries/:typeid", :typeid #"[0-9]+"] [typeid]
-       (json-response (mastery/all (read-string typeid)))))
+       (json-response (mastery/all (read-string typeid))))
+  (GET ["/ship/:typeid", :typeid #"[0-9]+"] [typeid]
+       (json-response (ship/ship-info (read-string typeid)))))
 

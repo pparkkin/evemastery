@@ -6,25 +6,27 @@ html {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
 }
 
 body {
     margin: 0px;
     padding: 0px;
+    padding-top: 18px;
+    padding-bottom: 13px;
 }
 
 div.ship {
     width: 650px;
     display: block;
     margin: 0px auto;
-    margin-top: 13px;
 }
 
 div.masteries {
     float: left;
     width: 400px;
     background-color: white;
+    box-shadow: 0px 0px 10px 1px #bb8c46;
 }
 
 div.mastery {
@@ -49,4 +51,9 @@ div.ship-info {
 
 h1.ship-name {
     text-align: center;
+}
+
+div.ship-desc {
+    margin-left: 6px;
+    margin-bottom: 16px;
 }

@@ -11,16 +11,17 @@
 (defn render-ship [ship masteries]
   [:div.ship
    [:div.ship-info
-    [:h1.ship-name ship]]
+    [:h1.ship-name (:typename ship)]
+    [:div.ship-desc (clojure.string/replace (:description ship) #"\n" "<br>")]]
    [:div.masteries
     (map render-mastery masteries)]])
 
-(defn render [ms]
-  (let [ship-name (first ms)
+(defn render [si ms]
+  (let [ship-name (:typename si)
         masteries (second ms)]
     (page/html5
      [:head
       [:title (format "Masteries - %s" ship-name)]
       (page/include-css "/stylesheets/mastery.css")]
      [:body
-      (render-ship ship-name masteries)])))
+      (render-ship si masteries)])))
