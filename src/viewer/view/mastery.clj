@@ -5,7 +5,11 @@
   [:div.mastery
    [:h2.mastery-level level]
    [:ul.certificates
-    (map (fn [m] [:li.certificate (:name m)])
+    (map (fn [m] [:li.certificate
+                 (:name m)
+                 [:ul.skills
+                  (map (fn [s] [:li.skill (format "%s - %d" (:typename s) (inc (:skilllevel s)))])
+                       (:skills m))]])
          certs)]])
 
 (defn render-ship [ship masteries]
@@ -18,7 +22,7 @@
 
 (defn render [si ms]
   (let [ship-name (:typename si)
-        masteries (second ms)]
+        masteries ms]
     (page/html5
      [:head
       [:title (format "Masteries - %s" ship-name)]
