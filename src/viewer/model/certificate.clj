@@ -13,4 +13,4 @@
     [(format "select t.\"typeName\", c.\"skillLevel\" from \"certSkills\" c join \"invTypes\" t on c.\"skillID\" = t.\"typeID\" where c.\"certID\" = %d and \"certLevelInt\" = %d" certid level)])))
 
 (defn list-skills [certid level]
-  (query-list-skills certid level))
+  (filter (fn [s] (> (:skilllevel s) 0)) (query-list-skills certid level)))

@@ -43,6 +43,10 @@ ul.certificates {
     list-style: none;
 }
 
+li.certificate {
+    cursor: pointer;
+}
+
 div.ship-info {
     float: right;
     width: 250px;

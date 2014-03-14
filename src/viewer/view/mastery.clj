@@ -1,14 +1,20 @@
 (ns viewer.view.mastery
   (:require [hiccup.page :as page]))
 
+(def roman-numerals
+  {1 "I", 2 "II", 3 "III", 4 "IV", 5 "V"})
+
+(defn mastery-level-heading [level]
+  (roman-numerals (inc level)))
+
 (defn render-mastery [[level certs]]
   [:div.mastery
-   [:h2.mastery-level level]
+   [:h2.mastery-level (mastery-level-heading level)]
    [:ul.certificates
     (map (fn [m] [:li.certificate
                  (:name m)
-                 [:ul.skills
-                  (map (fn [s] [:li.skill (format "%s - %d" (:typename s) (inc (:skilllevel s)))])
+                 [:ul.skills {"style" "display: none;"}
+                  (map (fn [s] [:li.skill (format "%s - %d" (:typename s) (:skilllevel s))])
                        (:skills m))]])
          certs)]])
 
@@ -26,6 +32,8 @@
     (page/html5
      [:head
       [:title (format "Masteries - %s" ship-name)]
-      (page/include-css "/stylesheets/mastery.css")]
+      (page/include-css "/stylesheets/mastery.css")
+      (page/include-js "//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js")
+      (page/include-js "/javascript/mastery.js")]
      [:body
       (render-ship si masteries)])))
