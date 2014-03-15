@@ -7,12 +7,13 @@
 (defn mastery-level-heading [level]
   (roman-numerals (inc level)))
 
-(defn render-mastery [[level certs]]
+(defn render-mastery [ship [level certs]]
   [:div.mastery
+   [:a.mastery-xml {"href" (format "xml/%s - %s.xml" ship (mastery-level-heading level))} "XML"]
    [:h2.mastery-level (mastery-level-heading level)]
    [:ul.certificates
     (map (fn [m] [:li.certificate
-                 (:name m)
+                 [:h3.certificate (:name m)]
                  [:ul.skills {"style" "display: none;"}
                   (map (fn [s] [:li.skill (format "%s - %d" (:typename s) (:skilllevel s))])
                        (:skills m))]])
@@ -24,7 +25,7 @@
     [:h1.ship-name (:typename ship)]
     [:div.ship-desc (clojure.string/replace (:description ship) #"\n" "<br>")]]
    [:div.masteries
-    (map render-mastery masteries)]])
+    (map (partial render-mastery (:typename ship)) masteries)]])
 
 (defn render [si ms]
   (let [ship-name (:typename si)

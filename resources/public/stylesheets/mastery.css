@@ -39,11 +39,19 @@ h2.mastery-level {
     background-color: #6c9be1;
 }
 
+a.mastery-xml {
+    float: right;
+    margin: 5px;
+}
+
 ul.certificates {
     list-style: none;
 }
 
-li.certificate {
+h3.certificate {
+    font-size: 1em;
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
     cursor: pointer;
 }
 

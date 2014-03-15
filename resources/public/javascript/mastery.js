@@ -1,6 +1,6 @@
 $(document).ready(function() {
 //    $(".skills").slideUp();
-    $(".certificate").click(function() {
-        $(this).children(".skills").slideToggle();
+    $("h3.certificate").click(function() {
+        $(this).next(".skills").slideToggle();
     });
 });

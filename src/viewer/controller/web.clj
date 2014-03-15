@@ -9,5 +9,9 @@
 (defroutes routes
   (GET ["/masteries/:typeid", :typeid #"[0-9]+"] [typeid]
        (mastery-view/render (ship/ship-info (read-string typeid))
-                            (mastery/all (read-string typeid)))))
+                            (mastery/all (read-string typeid))))
+  (GET ["/masteries/:shipname", :shipname #"[a-zA-Z ]+"] [shipname]
+       (let [ship-info (ship/ship-info shipname)]
+         (mastery-view/render ship-info
+                              (mastery/all (:typeid ship-info))))))
 

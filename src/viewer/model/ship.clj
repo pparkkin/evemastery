@@ -8,5 +8,11 @@
   (first (sql/query spec
                     [(format "select * from \"invTypes\" where \"typeID\" = %d" typeid)])))
 
+(defn ship-typeid [name]
+  (:typeid
+   (first (sql/query spec
+                     [(format "select * from \"invTypes\" where \"typeName\" = '%s'" name)]))))
+
 (defn ship-info [typeid]
-  (query-ship-info typeid))
+  (cond (instance? Number typeid) (query-ship-info typeid)
+        (instance? String typeid) (query-ship-info (ship-typeid typeid))))
