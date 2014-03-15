@@ -1,5 +1,6 @@
 (ns viewer.view.mastery
-  (:require [hiccup.page :as page]))
+  (:require [hiccup.page :as page]
+            [hiccup.util :as util]))
 
 (def roman-numerals
   {1 "I", 2 "II", 3 "III", 4 "IV", 5 "V"})
@@ -19,11 +20,14 @@
                        (:skills m))]])
          certs)]])
 
+(defn remove-html [str]
+  (clojure.string/replace str #"<[^>]+>" ""))
+
 (defn render-ship [ship masteries]
   [:div.ship
    [:div.ship-info
     [:h1.ship-name (:typename ship)]
-    [:div.ship-desc (clojure.string/replace (:description ship) #"\n" "<br>")]]
+    [:div.ship-desc (clojure.string/replace (remove-html (:description ship)) #"\n" "<br>")]]
    [:div.masteries
     (map (partial render-mastery (:typename ship)) masteries)]])
 
