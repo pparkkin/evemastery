@@ -11,9 +11,10 @@
 (defn parse-xml-filename [fn]
   (rest (re-find xml-filename-pattern fn)))
 
-(defn xml-response [content]
+(defn xml-response [filename content]
   {:status 200
-   :headers {"Content-Type" "application/xml"}
+   :headers {"Content-Type" "application/xml"
+             "Content-Disposition" (format "attachment; filename=\"%s\"" filename)}
    :body content})
 
 ;;; ["/user/:id", :id #"[0-9]+"]
@@ -21,11 +22,12 @@
   (GET ["/masteries/:typeid", :typeid #"[0-9]+"] [typeid]
        (mastery-view/render (ship/ship-info (read-string typeid))
                             (mastery/all (read-string typeid))))
-  (GET ["/masteries/:shipname", :shipname #"[a-zA-Z ]+"] [shipname]
+  (GET "/masteries/:shipname" [shipname]
        (let [ship-info (ship/ship-info shipname)]
-         (mastery-view/render ship-info
-                              (mastery/all (:typeid ship-info)))))
+         (when ship-info
+           (mastery-view/render ship-info
+                                (mastery/all (:typeid ship-info))))))
   (GET "/masteries/xml/:filename" [filename]
        (let [[ship level] (parse-xml-filename filename)]
-         (xml-response (with-out-str (xml/emit-element (mastery/as-xml ship level)))))))
+         (xml-response filename (with-out-str (xml/emit-element (mastery/as-xml ship level)))))))
 
