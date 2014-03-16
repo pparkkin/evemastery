@@ -23,11 +23,18 @@
 (defn remove-html [str]
   (clojure.string/replace str #"<[^>]+>" ""))
 
+;; <font size=\"14\"><b>Development</b></font>\r\n
+(defn remove-development [str]
+  (clojure.string/replace str #"<font size=\"14\"><b>Development</b></font>\r\n" ""))
+
 (defn render-ship [ship masteries]
   [:div.ship
    [:div.ship-info
     [:h1.ship-name (:typename ship)]
-    [:div.ship-desc (clojure.string/replace (remove-html (:description ship)) #"\n" "<br>")]]
+    [:div.ship-desc (clojure.string/replace
+                     (remove-development (:description ship))
+                     #"\n"
+                     "<br>")]]
    [:div.masteries
     (map (partial render-mastery (:typename ship)) masteries)]])
 
