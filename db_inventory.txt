@@ -1,0 +1,18 @@
+Whole tables
+      certMasteries 10781
+      certCerts 76
+      certSkills 3105
+
+Types
+        skills (invCategories.categoryID (16) -> invGroups.groupIDs -> invTypes.typeIDs) 448
+         select count(*) from "invTypes" t
+         join "invGroups" g on t."groupID" = g."groupID"
+         join "invCategories" c on g."categoryID" = c."categoryID"
+         where c."categoryID" = 16;
+        ships (invCategories.categoryID (6) -> invGroups.groupIDs -> invTypes.typeIDs) 352
+
+Idea:
+        1 table with ship name -> JSON blob of ship info + masteries (with skills)
+        total: 352*~12KB = 4MB
+        1. create script: db > csv
+        2. check DB at app init and init DB if needed
