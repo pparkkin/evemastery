@@ -9,6 +9,8 @@
                  [ring/ring-jetty-adapter "1.2.1"]
                  [compojure "1.1.6"]
                  [org.clojure/data.json "0.2.4"]
-                 [hiccup "1.0.4"]]
-  :plugins [[lein-ring "0.8.10"]]
+                 [hiccup "1.0.4"]
+                 [appengine-magic "0.5.0"]]
+  :plugins [[lein-ring "0.8.10"]
+            [appengine-magic "0.5.0"]]
   :ring {:handler viewer.core/app})
