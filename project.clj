@@ -6,11 +6,10 @@
   :dependencies [[org.clojure/clojure "1.6.0-RC1"]
                  [org.clojure/java.jdbc "0.3.2"]
                  [postgresql "9.1-901.jdbc4"]
-                 [ring/ring-jetty-adapter "1.2.1"]
+                 [javax.servlet/servlet-api "2.5"]
+                 [ring "1.2.2"]
                  [compojure "1.1.6"]
                  [org.clojure/data.json "0.2.4"]
                  [hiccup "1.0.4"]
                  [appengine-magic "0.5.0"]]
-  :plugins [[lein-ring "0.8.10"]
-            [appengine-magic "0.5.0"]]
-  :ring {:handler viewer.core/app})
+  :plugins [[appengine-magic "0.5.0"]])
