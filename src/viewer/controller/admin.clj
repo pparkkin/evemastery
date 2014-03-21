@@ -1,10 +1,13 @@
 (ns viewer.controller.admin
   (:require [compojure.core :refer [defroutes GET POST]]
             [appengine-magic.multipart-params :refer [wrap-multipart-params]]
-            [viewer.view.admin :as view]))
+            [viewer.view.admin :as view]
+            [viewer.model.ship :as ship]))
 
 (defn upload-datafile [file]
-  (count (read-string (apply str (map #(char (bit-and % 255)) (:bytes file))))))
+  (let [ships (read-string (apply str (map #(char (bit-and % 255)) (:bytes file))))]
+    (map (fn [s] (ship/put-ship (-> s :ship :typename) s))
+         ships)))
 
 (defroutes routes
   (GET "/" []
