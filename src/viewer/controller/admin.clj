@@ -6,6 +6,7 @@
 
 (defn upload-datafile [file]
   (let [ships (read-string (apply str (map #(char (bit-and % 255)) (:bytes file))))]
+    (ship/delete-all)
     (map (fn [s] (ship/put-ship (-> s :ship :typename) s))
          ships)))
 

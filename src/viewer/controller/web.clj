@@ -19,14 +19,11 @@
 
 ;;; ["/user/:id", :id #"[0-9]+"]
 (defroutes routes
-  (GET ["/masteries/:typeid", :typeid #"[0-9]+"] [typeid]
-       (mastery-view/render (ship/ship-info (read-string typeid))
-                            (mastery/all (read-string typeid))))
   (GET "/masteries/:shipname" [shipname]
-       (let [ship-info (ship/ship-info shipname)]
-         (when ship-info
-           (mastery-view/render ship-info
-                                (mastery/all (:typeid ship-info))))))
+       (let [ship (:data (ship/get-ship shipname))]
+         (when ship
+           (mastery-view/render (ship :ship)
+                                (ship :masteries)))))
   (GET "/masteries/xml/:filename" [filename]
        (let [[ship level] (parse-xml-filename filename)]
          (xml-response filename (with-out-str (xml/emit-element (mastery/as-xml ship level)))))))

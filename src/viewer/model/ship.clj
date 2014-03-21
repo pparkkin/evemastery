@@ -1,26 +1,18 @@
 (ns viewer.model.ship
   (:require [appengine-magic.services.datastore :as ds]))
 
-(ds/defentity Ship [^{:tag :key} name, data])
+(ds/defentity Ship [^{:tag :key} name, ^{:tag :clj} data])
+
+(defn delete-all []
+  (ds/delete!
+   (ds/query :kind Ship)))
 
 (defn put-ship [name data]
-  (let [s (Ship. name (ds/as-text (pr-str data)))]
+  (let [s (Ship. name data)]
     (ds/save! s)
     name))
 
 (defn get-ship [name]
-  (let [ship (ds/retrieve Ship name)]
-    ship))
+  (first (ds/query :kind Ship :filter (= :name name))))
 
-(defn query-ship-info [typeid]
-  (cond (instance? Number typeid)
-
-        (instance? String typeid)
-        ))
-
-(defn ship-typeid [name]
-  (:typeid (query-ship-info name)))
-
-(defn ship-info [typeid]
-  (query-ship-info typeid))
 
