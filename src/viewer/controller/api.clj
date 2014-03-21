@@ -12,13 +12,6 @@
 
 ;;; ["/user/:id", :id #"[0-9]+"]
 (defroutes routes
-  ;; (GET ["/masteries/:typeid", :typeid #"[0-9]+"] [typeid]
-  ;;      (json-response (mastery/all (read-string typeid))))
-  ;; (GET ["/ship/:typeid", :typeid #"[0-9]+"] [typeid]
-  ;;      (json-response (ship/ship-info (read-string typeid))))
-  ;; (GET ["/ship/:shipname", :shipname #"[a-zA-Z ]+"] [shipname]
-  ;;      (json-response (ship/ship-info shipname)))
-  ;; (GET ["/skills/:certid/:level", :certid #"[0-9]+", :level #"[0-9]+"] [certid level]
-  ;;      (json-response (certificate/list-skills (read-string certid) (read-string level))))
-  )
+  (GET ["/masteries/:shipname", :shipname #"[a-zA-Z ]+"] [shipname]
+       (json-response (-> (ship/get-ship shipname) :data :masteries))))
 
