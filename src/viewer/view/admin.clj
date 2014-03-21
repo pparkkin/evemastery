@@ -2,6 +2,14 @@
   (:require [hiccup.page :as page]
             [hiccup.util :as util]))
 
+(defn unauthorized [login]
+  (page/html5
+   [:head
+    [:title "Unauthorized"]]
+   [:body
+    [:h1 "You are not authorized to access this. Please "
+     [:a {:href login} "login"]
+     " first."]]))
 
 (defn datafile-upload-form []
   (page/html5
