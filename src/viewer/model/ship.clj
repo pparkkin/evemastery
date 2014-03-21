@@ -12,6 +12,11 @@
     (ds/save! s)
     name))
 
+(defn update-db [ships]
+  (delete-all)
+  (map (fn [s] (put-ship (-> s :ship :typename) s))
+       ships))
+
 (defn get-ship [name]
   (first (ds/query :kind Ship :filter (= :name name))))
 

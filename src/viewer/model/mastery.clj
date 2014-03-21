@@ -5,9 +5,6 @@
 (defn roman-to-masterylevel [r]
   ({"I" 0 "II" 1 "III" 2 "IV" 3 "V" 4} r))
 
-(defn all [typeid]
-  nil)
-
 ;; <entry skillID="3330" skill="Caldari Frigate" level="1"/>
 (defn skills-as-xml [ss]
   (map (fn [s] {:tag :entry
@@ -24,13 +21,14 @@
 
 ;; <plan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Condor - Medium" revision="4016">
 (defn as-xml [shipname level]
-  {:tag :plan
-   :attrs {:xmlns:xsi "http://www.w3.org/2001/XMLSchema-instance"
-           :xmlns:xsd "http://www.w3.org/2001/XMLSchema"
-           :name (format "%s - %s" shipname level)}
-   :content (masteries-as-xml
-             (filter (fn [[k v]] (<= k (roman-to-masterylevel level)))
-                     (all shipname)))})
+  (let [masteries (-> (ship/get-ship shipname) :data :masteries)]
+    {:tag :plan
+     :attrs {:xmlns:xsi "http://www.w3.org/2001/XMLSchema-instance"
+             :xmlns:xsd "http://www.w3.org/2001/XMLSchema"
+             :name (format "%s - %s" shipname level)}
+     :content (masteries-as-xml
+               (filter (fn [[k v]] (<= k (roman-to-masterylevel level)))
+                       masteries))}))
 
 
 
