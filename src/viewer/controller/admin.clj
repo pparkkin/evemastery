@@ -11,9 +11,9 @@
     (ship/update-db ships)))
 
 (defn require-admin [stuff redir]
-  (if (user/user-admin?)
-    (stuff)
-    (view/unauthorized (user/login-url :destination redir))))
+  (if (or (nil? (user/current-user)) (not (user/user-admin?)))
+    (view/unauthorized (user/login-url :destination redir))
+    (stuff)))
 
 (defroutes routes
   (GET "/" []
