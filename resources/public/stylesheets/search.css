@@ -1,0 +1,40 @@
+html {
+    margin: 0px;
+    padding: 0px;
+    background: url("/images/background.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    padding-top: 330px;
+    padding-bottom: 13px;
+}
+
+div#content {
+    width: 650px;
+    display: block;
+    margin: 0px auto;
+    background-color: #ddd;
+    color: #333;
+    padding: 30px;
+}
+
+div#content h1 {
+    margin: 0px;
+    margin-bottom: 17px;
+}
+
+div#content input {
+    font-size: 22px;
+    margin-right: 9px;
+}
+
+div#content input[type="submit"] {
+    -webkit-appearance: button;
+}
