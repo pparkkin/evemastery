@@ -10,6 +10,7 @@
   (context "/api" [] api/routes)
   (context "/admin" [] admin/routes)
   web/routes
-  (route/resources "/"))
+  (route/resources "/")
+  (route/not-found "<h1>Page not found. Sorry.</h1>"))
 
 (ae/def-appengine-app viewer-app #'routes)

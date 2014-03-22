@@ -16,8 +16,6 @@
     (stuff)))
 
 (defroutes routes
-  (GET "/" []
-       "Hello, Wold!")
   (GET "/datafile/upload" [:as req]
        (require-admin #(view/datafile-upload-form)
                      (request/request-url req)))
