@@ -1,10 +1,13 @@
 (ns viewer.controller.web
   (:require [compojure.core :refer [defroutes GET]]
+            [ring.util.response :as resp]
+            [ring.middleware.params :as params]
             [clojure.data.json :as json]
             [clojure.xml :as xml]
             [viewer.model.mastery :as mastery]
             [viewer.model.ship :as ship]
-            [viewer.view.mastery :as mastery-view]))
+            [viewer.view.mastery :as mastery-view]
+            [viewer.view.search :as search-view]))
 
 (def xml-filename-pattern #"(\S+) - (\S+).xml")
 
@@ -19,6 +22,12 @@
 
 ;;; ["/user/:id", :id #"[0-9]+"]
 (defroutes routes
+  (GET "/" [] (resp/redirect "/search"))
+  (params/wrap-params
+   (GET "/search" {params :params}
+        (if (params "q")
+          (resp/redirect (format "/masteries/%s" (params "q")))
+          (search-view/render))))
   (GET "/masteries/:shipname" [shipname]
        (let [ship (:data (ship/get-ship shipname))]
          (when ship
