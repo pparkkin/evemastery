@@ -1,5 +1,6 @@
 (ns viewer.model.ship
-  (:require [appengine-magic.services.datastore :as ds]))
+  (:require [appengine-magic.services.datastore :as ds]
+            [clojure.string :refer [upper-case]]))
 
 (ds/defentity Ship [^{:tag :key} name, ^{:tag :clj} data])
 
@@ -8,7 +9,7 @@
    (ds/query :kind Ship)))
 
 (defn put-ship [name data]
-  (let [s (Ship. name (ds/as-text (pr-str data)))]
+  (let [s (Ship. (upper-case name) (ds/as-text (pr-str data)))]
     (ds/save! s)
     name))
 
@@ -18,7 +19,7 @@
        ships))
 
 (defn get-ship [name]
-  (let [ship (first (ds/query :kind Ship :filter (= :name name)))]
+  (let [ship (first (ds/query :kind Ship :filter (= :name (upper-case name))))]
     (if (not (nil? ship))
       {:name (:name ship) :data (read-string (.getValue (:data ship)))})))
 
