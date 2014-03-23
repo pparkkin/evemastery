@@ -6,6 +6,7 @@
   (page/html5
    [:head
     (page/include-css "/stylesheets/search.css")
+    (page/include-js "/javascript/analytics.js")
     [:title "Search for it."]]
    [:body
     [:div#content

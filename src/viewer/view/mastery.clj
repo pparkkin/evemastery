@@ -46,6 +46,7 @@
       [:title (format "Masteries - %s" ship-name)]
       (page/include-css "/stylesheets/mastery.css")
       (page/include-js "//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js")
-      (page/include-js "/javascript/mastery.js")]
+      (page/include-js "/javascript/mastery.js")
+      (page/include-js "/javascript/analytics.js")]
      [:body
       (render-ship si masteries)])))
