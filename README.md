@@ -1,8 +1,4 @@
-## Usage
+## What Is This?
 
-```
-$ lein run -m viewer.core
-```
-
-After that open your browser to http://localhost:8080/masteries/582.
+This is the source code for the web service http://evemastery.appspot.com/.
 
