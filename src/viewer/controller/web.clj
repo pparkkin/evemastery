@@ -2,8 +2,7 @@
   (:require [compojure.core :refer [defroutes GET]]
             [ring.util.response :as resp]
             [ring.middleware.params :as params]
-            [clojure.data.json :as json]
-            [clojure.xml :as xml]
+            [clojure.string :as string]
             [viewer.model.mastery :as mastery]
             [viewer.model.ship :as ship]
             [viewer.view.mastery :as mastery-view]
@@ -26,7 +25,7 @@
   (params/wrap-params
    (GET "/search" {params :params}
         (if (params "q")
-          (resp/redirect (format "/masteries/%s" (params "q")))
+          (resp/redirect (format "/masteries/%s" (string/trim (params "q"))))
           (search-view/render))))
   (GET "/masteries/:shipname" [shipname]
        (let [ship (:data (ship/get-ship shipname))]
