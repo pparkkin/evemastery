@@ -35,5 +35,5 @@
                                 (ship :masteries)))))
   (GET "/masteries/xml/:filename" [filename]
        (let [[ship level] (parse-xml-filename filename)]
-         (xml-response filename (with-out-str (xml/emit-element (mastery/as-xml ship level)))))))
+         (xml-response filename (mastery/as-xml ship level)))))
 

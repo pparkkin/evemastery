@@ -25,12 +25,12 @@
 (defn list-skills [list]
   (:l list))
 
-;; <entry skillID="3330" skill="Caldari Frigate" level="1"/>
+;; <entry skillID=\"3330\" skill=\"Caldari Frigate\" level=\"1\"></entry>
 (defn skills-as-xml [ss]
-  (map (fn [s] {:tag :entry
-               :attrs {:skillID (:typeid s)
-                       :skill (:typename s)
-                       :level (:skilllevel s)}})
+  (map (fn [s] (format "            <entry skillID=\"%d\" skill=\"%s\" level=\"%d\"></entry>\n"
+                      (:typeid s)
+                      (:typename s)
+                      (:skilllevel s)))
        ss))
 
 (defn masteries-as-xml [ms]
@@ -40,16 +40,25 @@
                        ms)]
     (skills-as-xml (list-skills skills))))
 
+; <plan xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" name=\"Condor - Expert\" revision=\"4016\">
+(defn xml-head [name]
+  (let [xsi "http://www.w3.org/2001/XMLSchema-instance"
+        xsd "http://www.w3.org/2001/XMLSchema"
+        revision "4016"]
+    ["<?xml version=\"1.0\"?>"
+     (format "<plan xmlns:xsi=\"%s\" xmlns:xsd=\"%s\" name=\"%s\" revision=\"%s\">\n"
+             xsi xsd name revision)]))
+
 ;; <plan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Condor - Medium" revision="4016">
 (defn as-xml [shipname level]
-  (let [masteries (-> (ship/get-ship shipname) :data :masteries)]
-    {:tag :plan
-     :attrs {:xmlns:xsi "http://www.w3.org/2001/XMLSchema-instance"
-             :xmlns:xsd "http://www.w3.org/2001/XMLSchema"
-             :name (format "%s - %s" shipname level)}
-     :content (masteries-as-xml
-               (filter (fn [[k v]] (<= k (roman-to-masterylevel level)))
-                       masteries))}))
+  (let [masteries (-> (ship/get-ship shipname) :data :masteries)
+        head (xml-head (format "%s - %s" shipname level))
+        tail ["</plan>\n"]]
+    (apply str (concat head
+                       (masteries-as-xml
+                        (filter (fn [[k v]] (<= k (roman-to-masterylevel level)))
+                                masteries))
+                       tail))))
 
 
 
